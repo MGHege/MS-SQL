@@ -1,0 +1,478 @@
+/*
+   24 април 2024 г.21:40:49
+   User: 
+   Server: DESKTOP-2C5PKTF
+   Database: Minions
+   Application: 
+*/
+
+Minions
+CREATE DATABASE Minions;
+CREATE TABLE Minions (
+    ID int NOT NULL,
+    Name varchar(500),
+    Age int,
+    PRIMARY KEY (ID)
+);
+CREATE TABLE Towns (
+    ID int NOT NULL,
+    Name varchar(500),
+    PRIMARY KEY (ID)
+);
+SELECT * FROM [Minions];
+SELECT * FROM [Towns];
+alter table Minions
+ADD TownID int
+SELECT * FROM [Minions];
+alter table Minions
+ADD CONSTRAINT FK_Minions_Towns
+FOREIGN KEY(TownID) REFERENCES Towns(ID)
+
+INSERT INTO Towns ([ID],[Name])
+VALUES (1,'Sofia'),
+(2,'Plovdiv'),
+(3,'Varna');
+SELECT * FROM [Towns];
+INSERT INTO Minions ([ID],[Name],[Age], [TownID])
+VALUES (1,'Kevin',22,1),
+(2,'Bob',15,3),
+(3,'Steward',null,2);
+SELECT * FROM [Minions];
+TRUNCATE TABLE Minions;
+SELECT * FROM [Minions];
+DROP TABLE Minions;
+DROP TABLE Towns;
+
+4.
+INSERT INTO Towns ([ID],[Name])
+VALUES (1,'Sofia'),
+(2,'Plovdiv'),
+(3,'Varna');
+INSERT INTO Minions ([ID],[Name],[Age], [TownID])
+VALUES (1,'Kevin',22,1),
+(2,'Bob',15,3),
+(3,'Steward',null,2);
+7.
+CREATE TABLE People (
+    ID int primary key identity(1,1),
+    Name varchar(200) not null,
+    Picture VARBINARY (MAX),
+	CHECK(DATALENGTH(PICTURE)<=2000000),
+    Height DECIMAL(3,2),
+	Weight DECIMAL(5,2),
+	Gender CHAR(1) NOT NULL,
+	CHECk (Gender ='f' OR Gender ='m'),
+	Birthdate date not null,
+	Biography nvarchar(max)
+);
+
+INSERT INTO People(Name,Height,Weight,Gender,Birthdate)
+values('Mira',1.75,65.00,'f', '1991-03-21'),
+('Asq',1.60,55.00,'f', '1990-04-12'),
+('Gosho',1.95,93.00,'m', '1985-03-12'),
+('Sasho',1.70,78.00,'m', '1984-03-12'),
+('Misha',1.75,65.00,'f', '1990-03-12')
+
+8.
+CREATE TABLE Users (
+    ID bigint PRIMARY KEY IDENTITY(1, 1),
+    Username  varchar(30) unique not null,
+    Password  NVARCHAR(20) NOT NULL,
+    ProfilePicture VARBINARY(8000) ,
+	LastLoginTime TIME,
+	IsDeleted BIT
+);
+INSERT INTO Users ([Username],[Password],[LastLoginTime],[IsDeleted])
+VALUES ('Kevin','W3#bsbnn','21:21:20', 'false'),
+('Milen','W3#babn1','20:20:40', 'false'),
+('Vldo','W3#bdbn2','14:11:50','false'),
+('Misha','W3#bebn3','15:21:10', 'false'),
+('Anna','W3#bhbn4','10:10:20', 'false');
+
+
+13.
+CREATE DATABASE Movies; /WITHOUT THAT
+CREATE TABLE Directors(
+    ID int identity PRIMARY KEY NOT NULL,
+    DirectorName varchar(500),
+    Notes nvarchar(max),
+);
+CREATE TABLE Genres(
+    ID int identity PRIMARY KEY NOT NULL,
+    GenreName varchar(500),
+    Notes nvarchar(max),
+);
+CREATE TABLE Categories(
+    ID int identity PRIMARY KEY NOT NULL,
+    CategoryName varchar(500),
+    Notes nvarchar(max),
+);
+CREATE TABLE Movies(
+    ID int identity PRIMARY KEY NOT NULL,
+    Title varchar(100),
+    DirectorId int FOREIGN KEY REFERENCES Directors(ID),
+	CopyrightYear SMALLINT,
+	Length FLOAT,
+	GenreId int FOREIGN KEY REFERENCES Genres(ID),
+	CategoryId int FOREIGN KEY REFERENCES Categories(ID),
+	Rating DECIMAL(3,1),
+	Notes nvarchar(max),
+);
+
+INSERT INTO Directors ([DirectorName],[Notes])
+VALUES ('Clint Eastwood', 'Clinton Eastwood Jr. is an American actor and film director.'),
+('Martin Scorsese','Martin Charles Scorsese is an American filmmaker.'),
+('Steven Spielberg','Steven Allan Spielberg, KBE is an American film director, producer and screenwriter.'),
+('Woody Allen','Heywood Allen is an American filmmaker, actor, and comedian whose career spans more than six decades.'),
+('Quentin Tarantino','Quentin Jerome Tarantino is an American film director, screenwriter, and actor.');
+INSERT INTO Genres (GenreName,[Notes])
+VALUES('Horror',' Horror films often explore dark subject matter and may deal with transgressive topics or themes.'),
+('Fantasy','Fantasies are films directors set in imaginary worlds that have little or no representation of reality.'),
+('Comedy genre','The comedy genre has also been one of the most flexible, as its roots have made their way into the very fabric of cinema and its many other genres.'),
+('Crime','The crime movie genre delves into the world of criminal activities, legal battles, and moral complexities.'),
+('Animation','Animation is a filmmaking technique by which still images are manipulated to create moving images.');
+INSERT INTO Categories (CategoryName,[Notes])
+VALUES('Local Moves','Moving within the same city, or even neighboring locations, are considered to be local moves.'),
+('Long Distance Moves','Moves that exceed the distance limit of a local move yet are within the same state, are considered to be long distance moves.'),
+('Interstate Moves','A move that crosses state lines, whether into a neighboring state or on the other side of the country, is an interstate move.'),
+('International Moves','Moving from one country to another is an international move, although there are instances such as moving from the continental U.S. to Puerto Rico, Alaska, or even Hawaii that are also considered international moves.'),
+('Corporate Moves','Business moves, whether local, long distance or elsewhere, are corporate moves and work best when planned by corporate relocation specialists');
+INSERT INTO Movies (Title, DirectorId,CopyrightYear,Length,GenreId,CategoryId,Rating,Notes)
+VALUES('CAT',2,NULL,1.87,1,1,5.4,'DOOG'),
+('BURD',1,1990,1.6,3,3,5.3,'BAD'),
+('DOG',4,2000,2.69,2,2,5.2,'VERRY DOOG'),
+('RED',3,1987,5.40,4,4,5.5,'NOT TO BAD'),
+('CAT 2',5,2015,1.34,4,5,6,'NOT TO DOOG');
+
+SELECT * FROM [Movies]; /WITHOUT THAT
+
+14
+CREATE TABLE Categories (
+    Id INT PRIMARY KEY,
+    CategoryName VARCHAR(50) NOT NULL,
+    DailyRate DECIMAL(10, 2) NOT NULL,
+    WeeklyRate DECIMAL(10, 2) NOT NULL,
+    MonthlyRate DECIMAL(10, 2) NOT NULL,
+    WeekendRate DECIMAL(10, 2) NOT NULL
+);
+
+-- Populate Categories table
+INSERT INTO Categories (Id, CategoryName, DailyRate, WeeklyRate, MonthlyRate, WeekendRate) VALUES
+(1, 'Compact', 30.00, 180.00, 600.00, 50.00),
+(2, 'Sedan', 35.00, 210.00, 700.00, 55.00),
+(3, 'SUV', 50.00, 300.00, 1000.00, 80.00);
+
+-- Create Cars table
+CREATE TABLE Cars (
+    Id INT PRIMARY KEY,
+    PlateNumber VARCHAR(15) NOT NULL,
+    Manufacturer VARCHAR(50) NOT NULL,
+    Model VARCHAR(50) NOT NULL,
+    CarYear INT NOT NULL,
+    CategoryId INT,
+    Doors INT,
+    Picture VARBINARY(8000),
+    Condition VARCHAR(50),
+    Available BIT,
+    FOREIGN KEY (CategoryId) REFERENCES Categories(Id)
+);
+
+-- Populate Cars table
+INSERT INTO Cars (Id, PlateNumber, Manufacturer, Model, CarYear, CategoryId, Doors, Picture, Condition, Available) VALUES
+(1, 'ABC123', 'Toyota', 'Corolla', 2018, 1, 4, 0x, 'Good', 1),
+(2, 'XYZ456', 'Honda', 'Civic', 2019, 2, 4, 0x, 'Excellent', 1),
+(3, 'DEF789', 'Ford', 'Escape', 2020, 3, 4, 0x, 'Fair', 1);
+
+-- Create Employees table
+CREATE TABLE Employees (
+    Id INT PRIMARY KEY,
+    FirstName VARCHAR(50) NOT NULL,
+    LastName VARCHAR(50) NOT NULL,
+    Title VARCHAR(50),
+    Notes VARCHAR(255)
+);
+
+-- Populate Employees table
+INSERT INTO Employees (Id, FirstName, LastName, Title, Notes) VALUES
+(1, 'John', 'Doe', 'Manager', 'Excellent employee'),
+(2, 'Jane', 'Smith', 'Sales Associate', 'Hardworking and punctual'),
+(3, 'Michael', 'Johnson', 'Assistant', 'Detail-oriented');
+
+-- Create Customers table
+CREATE TABLE Customers (
+    Id INT PRIMARY KEY,
+    DriverLicenceNumber VARCHAR(20) NOT NULL,
+    FullName VARCHAR(100) NOT NULL,
+    Address VARCHAR(255),
+    City VARCHAR(50),
+    ZIPCode VARCHAR(20),
+    Notes VARCHAR(255)
+);
+
+-- Populate Customers table
+INSERT INTO Customers (Id, DriverLicenceNumber, FullName, Address, City, ZIPCode, Notes) VALUES
+(1, 'DL123456', 'Alice Johnson', '123 Main St', 'New York', '10001', 'Frequent renter'),
+(2, 'DL789012', 'Bob Smith', '456 Elm St', 'Los Angeles', '90001', 'First-time renter'),
+(3, 'DL345678', 'Charlie Brown', '789 Oak St', 'Chicago', '60601', 'Preferred customer');
+
+-- Create RentalOrders table
+CREATE TABLE RentalOrders (
+    Id INT PRIMARY KEY,
+    EmployeeId INT,
+    CustomerId INT,
+    CarId INT,
+    TankLevel DECIMAL(5, 2),
+    KilometrageStart INT,
+    KilometrageEnd INT,
+    TotalKilometrage INT,
+    StartDate DATETIME,
+    EndDate DATETIME,
+    TotalDays INT,
+    RateApplied DECIMAL(10, 2),
+    TaxRate DECIMAL(5, 2),
+    OrderStatus VARCHAR(50),
+    Notes VARCHAR(255),
+    FOREIGN KEY (EmployeeId) REFERENCES Employees(Id),
+    FOREIGN KEY (CustomerId) REFERENCES Customers(Id),
+    FOREIGN KEY (CarId) REFERENCES Cars(Id)
+);
+
+-- Populate RentalOrders table
+INSERT INTO RentalOrders (Id, EmployeeId, CustomerId, CarId, TankLevel, KilometrageStart, KilometrageEnd, TotalKilometrage, StartDate, EndDate, TotalDays, RateApplied, TaxRate, OrderStatus, Notes) VALUES
+(1, 1, 1, 1, 80.00, 5000, 5500, 500, '2024-04-01', '2024-04-05', 4, 120.00, 10.00, 'Completed', 'No damage reported'),
+(2, 2, 2, 2, 75.00, 7000, 7500, 500, '2024-04-02', '2024-04-06', 4, 140.00, 10.00, 'Completed', 'Clean return'),
+(3, 3, 3, 3, 90.00, 6000, 6500, 500, '2024-04-03', '2024-04-07', 4, 200.00, 10.00, 'Completed', 'Minor scratches');
+
+15
+CREATE TABLE Employees (
+    ID int PRIMARY KEY NOT NULL,
+    FirstName varchar(500),
+	LastName varchar(500),
+    Title nvarchar(150),
+   Notes varchar(1000)
+);
+CREATE TABLE Customers (
+    AccountNumber INT PRIMARY KEY NOT NULL,
+    FirstName VARCHAR(50) NOT NULL,
+    LastName VARCHAR(50) NOT NULL,
+    PhoneNumber VARCHAR(15),
+    EmergencyName VARCHAR(100),
+    EmergencyNumber VARCHAR(15),
+    Notes VARCHAR(255)
+);
+CREATE TABLE RoomStatus (
+    RoomStatus VARCHAR(20) PRIMARY KEY,
+    Notes VARCHAR(255)
+);
+CREATE TABLE RoomTypes (
+    RoomType VARCHAR(50) PRIMARY KEY,
+    Notes VARCHAR(255)
+);
+CREATE TABLE BedTypes (
+    BedType VARCHAR(50) PRIMARY KEY,
+    Notes VARCHAR(255)
+);
+CREATE TABLE Rooms (
+    RoomNumber INT PRIMARY KEY,
+    RoomType VARCHAR(50) FOREIGN KEY REFERENCES RoomTypes(RoomType),
+    BedType VARCHAR(50) FOREIGN KEY REFERENCES BedTypes(BedType),
+    Rate DECIMAL(10, 2),
+    RoomStatus VARCHAR(20)FOREIGN KEY REFERENCES RoomStatus(RoomStatus),
+    Notes VARCHAR(255),
+   
+);
+CREATE TABLE Payments (
+    Id INT PRIMARY KEY,
+    EmployeeId INT,
+    PaymentDate DATE,
+    AccountNumber INT,
+    FirstDateOccupied DATE,
+    LastDateOccupied DATE,
+    TotalDays INT,
+    AmountCharged DECIMAL(10, 2),
+    TaxRate DECIMAL(5, 2),
+    TaxAmount DECIMAL(10, 2),
+    PaymentTotal DECIMAL(10, 2),
+    Notes VARCHAR(255),
+    FOREIGN KEY (EmployeeId) REFERENCES Employees(Id),
+    FOREIGN KEY (AccountNumber) REFERENCES Customers(AccountNumber)
+);
+CREATE TABLE Occupancies (
+    Id INT PRIMARY KEY,
+    EmployeeId INT,
+    DateOccupied DATE,
+    AccountNumber INT,
+    RoomNumber INT,
+    RateApplied DECIMAL(10, 2),
+    PhoneCharge DECIMAL(10, 2),
+    Notes VARCHAR(255),
+    FOREIGN KEY (EmployeeId) REFERENCES Employees(Id),
+    FOREIGN KEY (AccountNumber) REFERENCES Customers(AccountNumber),
+    FOREIGN KEY (RoomNumber) REFERENCES Rooms(RoomNumber)
+);
+INSERT INTO Employees (Id, FirstName, LastName, Title, Notes)
+VALUES 
+    (1, 'John', 'Doe', 'Manager', 'Excellent communication skills.'),
+    (2, 'Jane', 'Smith', 'Receptionist', 'Works well under pressure.'),
+    (3, 'Michael', 'Johnson', 'Housekeeper', 'Attention to detail.');
+	INSERT INTO Customers (AccountNumber, FirstName, LastName, PhoneNumber, EmergencyName, EmergencyNumber, Notes)
+VALUES 
+    (1001, 'Alice', 'Brown', '123-456-7890', 'Bob Brown', '987-654-3210', 'Loyal customer.'),
+    (1002, 'Charlie', 'Davis', '234-567-8901', 'David Davis', '876-543-2109', 'Allergic to peanuts.'),
+    (1003, 'Eva', 'Garcia', '345-678-9012', 'Frank Garcia', '765-432-1098', 'Prefers non-smoking rooms.');
+	INSERT INTO RoomStatus (RoomStatus, Notes)
+VALUES 
+    ('Available', 'Ready for occupancy.'),
+    ('Occupied', 'Currently in use by guests.'),
+    ('Under Maintenance', 'Not available for booking due to maintenance.');
+	INSERT INTO RoomTypes (RoomType, Notes)
+VALUES 
+    ('Standard', 'Basic room with essential amenities.'),
+    ('Suite', 'Luxurious accommodation with additional living space.'),
+    ('Deluxe', 'High-end room with premium amenities.');
+	INSERT INTO BedTypes (BedType, Notes)
+VALUES 
+    ('Single', 'One single bed.'),
+    ('Double', 'One double bed.'),
+    ('Queen', 'One queen-sized bed.');
+	INSERT INTO Rooms (RoomNumber, RoomType, BedType, Rate, RoomStatus, Notes)
+VALUES 
+    (101, 'Standard', 'Single', 100.00, 'Available', 'Great view of the city.'),
+    (102, 'Suite', 'Double', 250.00, 'Occupied', 'Spacious with a jacuzzi.'),
+    (103, 'Deluxe', 'Queen', 200.00, 'Available', 'Balcony overlooking the ocean.');
+	INSERT INTO Payments (Id, EmployeeId, PaymentDate, AccountNumber, FirstDateOccupied, LastDateOccupied, TotalDays, AmountCharged, TaxRate, TaxAmount, PaymentTotal, Notes)
+VALUES 
+    (1, 1, '2024-05-01', 1001, '2024-04-28', '2024-05-01', 4, 400.00, 0.1, 40.00, 440.00, 'Room service charges included.'),
+    (2, 2, '2024-05-02', 1002, '2024-04-30', '2024-05-02', 3, 750.00, 0.1, 75.00, 825.00, 'Extra bed charge applied.'),
+    (3, 3, '2024-05-03', 1003, '2024-05-01', '2024-05-03', 2, 400.00, 0.1, 40.00, 440.00, 'Late checkout fee waived.');
+	INSERT INTO Occupancies (Id, EmployeeId, DateOccupied, AccountNumber, RoomNumber, RateApplied, PhoneCharge, Notes)
+VALUES 
+    (1, 1, '2024-04-28', 1001, 101, 100.00, 20.00, 'Breakfast charged to room.'),
+    (2, 2, '2024-04-30', 1002, 102, 250.00, 0.00, 'Room service ordered.'),
+    (3, 3, '2024-05-01', 1003, 103, 200.00, 15.00, 'Mini bar expenses.');
+
+
+16-17
+CREATE DATABASE SoftUni;
+USE SoftUni;
+CREATE TABLE Towns (
+    Id INT identity PRIMARY KEY ,
+    Name VARCHAR(500) NOT NULL
+);
+CREATE TABLE Addresses (
+    Id INT identity PRIMARY KEY,
+    AddressText VARCHAR(600) NOT NULL,
+    TownId INT FOREIGN KEY REFERENCES Towns(Id)
+);
+CREATE TABLE Departments (
+    Id INT identity  PRIMARY KEY,
+    Name VARCHAR(500) NOT NULL
+);
+CREATE TABLE Employees (
+    Id INT identity  PRIMARY KEY,
+    FirstName VARCHAR(100) NOT NULL,
+    MiddleName VARCHAR(100),
+    LastName VARCHAR(100) NOT NULL,
+    JobTitle VARCHAR(100) NOT NULL,
+    DepartmentId INT FOREIGN KEY REFERENCES Departments(Id),
+    HireDate DATE,
+    Salary DECIMAL(10, 2),
+    AddressId INT FOREIGN KEY REFERENCES Addresses(Id)
+);
+BACKUP DATABASE SoftUni TO DISK = 'C:\Backup\softuni-backup.bak' WITH FORMAT;
+
+USE master;
+GO
+RESTORE DATABASE SoftUni FROM DISK = 'C:\Backup\softuni-backup.bak';
+
+"""""The error message you're encountering suggests that there was a failure to establish a connection to the SQL Server instance 
+during the restore operation. This could be due to various reasons such as network issues, server availability, or configuration settings.
+
+To address this issue, you can try the following steps:
+
+Check Server Availability: Ensure that the SQL Server instance is running and accessible from the network. You can verify this by trying to connect to the SQL Server instance using SSMS or a command-line tool like sqlcmd.
+Network Connectivity: Check the network connectivity between the machine where you're running SSMS and the SQL Server instance. Ensure that there are no firewall rules or network configurations blocking the connection.
+Increase ConnectRetryCount: As suggested in the error message, you can increase the value of the ConnectRetryCount parameter to increase the number of connection retry attempts.
+ You can set this parameter in the connection string or in the SSMS connection properties.
+Check SQL Server Error Log: Check the SQL Server error log for any error messages or warnings that might provide more information about the connection failure. This can help identify the root cause of the issue.
+Restart SQL Server Service: If possible, try restarting the SQL Server service to see if that resolves the connection issue.
+Verify Backup File Path: Double-check the file path specified in the RESTORE DATABASE command to ensure that it points to the correct location where the backup file is stored.
+Verify Permissions: Ensure that the account running SSMS has sufficient permissions to access and restore databases on the SQL Server instance.
+By following these steps and addressing any issues encountered, you should be able to successfully restore the database without encountering the connection retry error.
+
+18.
+CREATE DATABASE SoftUni;
+
+CREATE TABLE Towns (
+    Id INT IDENTITY PRIMARY KEY,
+    [Name] VARCHAR(500) NOT NULL
+);
+
+CREATE TABLE Departments (
+    Id INT IDENTITY PRIMARY KEY,
+    [Name] VARCHAR(500) NOT NULL
+);
+
+CREATE TABLE Employees (
+    [Name] VARCHAR(150) NOT NULL,
+    JobTitle VARCHAR(100) NOT NULL,
+    DepartmentId INT,
+    HireDate DATE,
+    Salary DECIMAL(10, 2),
+    FOREIGN KEY (DepartmentId) REFERENCES Departments(Id)
+);
+
+INSERT INTO Towns (Name)
+VALUES ('Sofia'), ('Plovdiv'), ('Varna'), ('Burgas');
+
+-- Insert Departments
+INSERT INTO Departments (Name)
+VALUES ('Engineering'), ('Sales'), ('Marketing'), ('Software Development'), ('Quality Assurance');
+
+
+INSERT INTO Employees (Name, JobTitle, DepartmentId, HireDate, Salary)
+VALUES('Ivan Ivanov Ivanov', '.NET Developer', 4, '2013-02-01', 3500.00),
+('Petar Petrov Petrov', 'Senior Engineer', 1, '2004-03-02', 4000.00),
+('Maria Petrova Ivanova', 'Intern', 5, '2016-08-26', 525.25),
+('Georgi Teziev Ivanov', 'CEO', 2, '2007-12-09', 3000.00),
+('Peter Pan Pan', 'Intern', 3, '2016-08-28', 599.88);
+19.
+SELECT * FROM Towns;
+SELECT * FROM Departments;
+SELECT * FROM Employees;
+
+20.SELECT * FROM Towns
+ORDER BY Name ASC;
+
+SELECT * FROM Departments
+ORDER BY Name ASC;
+
+SELECT * FROM Employees
+ORDER BY Salary DESC;
+
+21.
+SELECT Name FROM Towns
+ORDER BY Name ASC;
+
+-- Sorting Departments alphabetically by name and showing only the Name column
+SELECT Name FROM Departments
+ORDER BY Name ASC;
+
+-- Sorting Employees descending by salary and showing only the FirstName, LastName, JobTitle, and Salary columns
+SELECT FirstName, LastName, JobTitle, Salary FROM Employees
+ORDER BY Salary DESC;
+
+22.
+UPDATE Employees
+SET Salary = Salary * 1.1;
+
+23.
+UPDATE Payments
+SET TaxRate = TaxRate - 0.03;
+
+24.
+DELETE FROM Occupancies;
+SELECT TaxRate FROM Payments;
+SELECT Salary FROM Employees;
+
+ALTER TABLE Employees DROP CONSTRAINT FK_Department_Employees;
